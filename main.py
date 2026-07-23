@@ -147,7 +147,7 @@ if button:
 
             with col1:
                 if video_info["thumbnail"]:
-                    st.image(video_info["thumbnail"], use_container_width=True)
+                    st.image(video_info["thumbnail"], width="stretch")
 
             with col2:
                 st.markdown("### 🎬 Video Information")
