@@ -1,0 +1,12 @@
+streamlit
+agno
+groq
+python-dotenv
+rich
+duckduckgo-search
+youtube-transcript-api
+yt-dlp
+requests
+pydantic
+typing-extensions
+reportlab
