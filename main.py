@@ -5,6 +5,7 @@ from app import buil_youtube_agent
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 from io import BytesIO
+from xml.sax.saxutils import escape
 
 # ----------------------------
 # Page Configuration
@@ -83,22 +84,41 @@ def format_duration(seconds):
     return f"{minutes} min {seconds} sec"
 
 
+
+
 def create_pdf(content):
     buffer = BytesIO()
-
     doc = SimpleDocTemplate(buffer)
     styles = getSampleStyleSheet()
-
     story = []
 
-    story.append(Paragraph("<b>AI YouTube Video Analysis Report</b>", styles["Title"]))
+    story.append(
+        Paragraph(
+            "<b>AI YouTube Video Analysis Report</b>",
+            styles["Title"]
+        )
+    )
+
     story.append(Paragraph("<br/>", styles["Normal"]))
 
     for line in content.split("\n"):
-        story.append(Paragraph(line, styles["BodyText"]))
+        # Convert Markdown/HTML line breaks to valid ReportLab breaks
+        line = line.replace("<br>", "<br/>")
+        line = line.replace("<br />", "<br/>")
+
+        # Escape unsupported HTML/XML characters while preserving <br/>
+        line = escape(line)
+        line = line.replace("&lt;br/&gt;", "<br/>")
+
+        # Basic Markdown formatting
+        line = line.replace("**", "")
+
+        if line.strip():
+            story.append(
+                Paragraph(line, styles["BodyText"])
+            )
 
     doc.build(story)
-
     buffer.seek(0)
 
     return buffer
