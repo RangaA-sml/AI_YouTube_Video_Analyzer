@@ -285,5 +285,5 @@ if button:
             st.error(f"❌ An error occurred while analyzing the video:\n\n{e}")
 
         st.markdown("---")
-
+        
         st.caption("Built with ❤️ using Streamlit + Agno + Groq")
